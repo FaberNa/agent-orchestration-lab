@@ -1,0 +1,16 @@
+[project]
+name = "agent-orchestration-lab"
+version = "0.1.0"
+description = "A hands-on lab for exploring AI agent orchestration, context management, memory, tool calling, evaluations, and observability."
+requires-python = ">=3.12"
+
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "httpx",
+]
