@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from agent_lab.models.base import ModelProvider
-
+from agent_lab.agents.context import AgentContext
 
 class Agent(ABC):
     """Base abstraction for an AI agent."""

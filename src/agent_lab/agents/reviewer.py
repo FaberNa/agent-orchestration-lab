@@ -1,5 +1,5 @@
 from agent_lab.agents.base import Agent
-from agent_lab.agents.agent_context import AgentContext
+from agent_lab.agents.context import AgentContext
 
 class ReviewerAgent(Agent):
     """Agent responsible for reviewing implementation proposals."""
