@@ -10,6 +10,6 @@ class Agent(ABC):
         self.model = model
 
     @abstractmethod
-    async def run(self, task: str) -> str:
+    async def run(self, context: AgentContext) -> str:
         """Execute the agent for the given task."""
         pass

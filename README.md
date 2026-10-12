@@ -1,4 +1,3 @@
-# agent-orchestration-lab
 # Agent Orchestration Lab
 
 A hands-on project for exploring the architecture and engineering practices behind AI agent systems.
