@@ -1,6 +1,7 @@
 from agent_lab.agents.developer import DeveloperAgent
 
 from agent_lab.agents.reviewer import ReviewerAgent
+from agent_lab.agents.context import AgentContext
 
 class AgentOrchestrator:
 
@@ -22,14 +23,13 @@ class AgentOrchestrator:
 
     async def run(self, task: str) -> str:
 
-        proposal = await self.developer.run(task)
+        context = AgentContext(task=task)
+        proposal = await self.developer.run(context)
 
-        review = await self.reviewer.review(
-
+        reviewer_context = AgentContext(
             task=task,
-
-            proposal=proposal,
-
+            previous_output=proposal,
         )
+        review = await self.reviewer.run(reviewer_context)
 
         return review
