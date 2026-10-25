@@ -7,3 +7,4 @@ class AgentContext:
 
     task: str
     previous_output: str | None = None
+    feedback: str | None = None

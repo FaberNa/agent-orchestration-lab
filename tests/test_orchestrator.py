@@ -13,7 +13,7 @@ async def test_orchestrator_passes_proposal_to_reviewer():
         response="Propongo una funzione che somma due numeri."
     )
     reviewer_model = FakeModelProvider(
-        response="La proposta soddisfa il task."
+        response='{"approved": true, "feedback": "La proposta soddisfa il task."}'
     )
 
     orchestrator = AgentOrchestrator(
@@ -30,7 +30,8 @@ async def test_orchestrator_passes_proposal_to_reviewer():
     assert developer_model.response in reviewer_model.last_prompt
     assert result.task == "Implementa una funzione che somma due numeri."
     assert result.proposal == developer_model.response
-    assert result.review == reviewer_model.response
+    assert result.review.approved is True
+    assert result.review.feedback == "La proposta soddisfa il task."
 
 
     print("Risultato:")

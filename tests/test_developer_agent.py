@@ -19,3 +19,22 @@ async def test_developer_agent_returns_model_response():
     assert model.last_prompt is not None
     assert "software developer agent" in model.last_prompt
     assert "Implement user authentication" in model.last_prompt
+
+@pytest.mark.asyncio
+async def test_developer_agent_includes_revision_context():
+    model = FakeModelProvider(response="Proposta corretta")
+    agent = DeveloperAgent(model=model)
+
+    context = AgentContext(
+        task="Implementa una divisione",
+        previous_output="return a / b",
+        feedback="Gestisci la divisione per zero",
+    )
+
+    result = await agent.run(context)
+
+    assert result == "Proposta corretta"
+    assert model.last_prompt is not None
+    assert context.task in model.last_prompt
+    assert context.previous_output in model.last_prompt
+    assert context.feedback in model.last_prompt
