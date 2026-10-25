@@ -1,6 +1,7 @@
 import pytest
 
 from agent_lab.agents.developer import DeveloperAgent
+from agent_lab.agents.context import AgentContext
 from agent_lab.models.fake import FakeModelProvider
 
 
@@ -9,7 +10,9 @@ async def test_developer_agent_returns_model_response():
     model = FakeModelProvider(response="Proposed implementation")
     agent = DeveloperAgent(model=model)
 
-    result = await agent.run("Implement user authentication")
+    context = AgentContext(task="Implement user authentication")
+
+    result = await agent.run(context)
 
     assert result == "Proposed implementation"
 
