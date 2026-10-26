@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from agent_lab.models.base import ModelProvider
 from agent_lab.agents.context import AgentContext
 
-from src.agent_lab.agents.review import ReviewResult
+from agent_lab.agents.review import ReviewResult
 
 
 class Agent(ABC):

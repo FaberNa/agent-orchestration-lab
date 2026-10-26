@@ -32,13 +32,29 @@ class AgentOrchestrator:
         context = AgentContext(task=task)
 
         for attempt in range(1, self.max_attempts + 1):
+            print(
+                f"[{attempt}/{self.max_attempts}] Developer in esecuzione...",
+                flush=True,
+            )
             proposal = await self.developer.run(context)
 
             reviewer_context = AgentContext(
                 task=task,
                 previous_output=proposal,
             )
+
+            print(
+                f"[{attempt}/{self.max_attempts}] Reviewer in esecuzione...",
+                flush=True,
+            )
             review = await self.reviewer.run(reviewer_context)
+
+            print(
+                f"[{attempt}/{self.max_attempts}] Approved: {review.approved}",
+                flush=True,
+            )
+
+        # Qui resta il codice di uscita e preparazione del contesto
 
             if review.approved or attempt == self.max_attempts:
                 return OrchestrationResult(
