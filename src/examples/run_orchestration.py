@@ -1,5 +1,7 @@
 import asyncio
 import os
+import ast
+
 from google.genai import types
 
 from pathlib import Path
@@ -60,12 +62,40 @@ async def main():
         #    "Proponi una funzione Python che divide due numeri "
         #    "e gestisce la divisione per zero."
         #)
+        #result = await orchestrator.run(
+        #    "Leggi calculator.py usando read_file. "
+        #    "Spiega cosa fa e proponi come migliorare "
+        #    "la gestione della divisione per zero. "
+        #    "Non modificare il file."
+        #)
+
         result = await orchestrator.run(
-            "Leggi calculator.py usando read_file. "
-            "Spiega cosa fa e proponi come migliorare "
-            "la gestione della divisione per zero. "
-            "Non modificare il file."
+            "Leggi calculator.py usando read_file e proponi una versione corretta.\n"
+            "Requisiti:\n"
+            "- divide(a, b) deve restituire il quoziente.\n"
+            "- Se b è zero, deve sollevare ValueError.\n\n"
+            "Risultato dei test sull'implementazione attuale:\n"
+            "3 passed, 1 failed.\n"
+            "Il test test_divide_rejects_zero_divisor si aspetta ValueError,\n"
+            #"ma la funzione solleva ZeroDivisionError.\n\n"
+            #"Restituisci il codice completo proposto per calculator.py.\n"
+            #"Non modificare i file."
+            "Restituisci esclusivamente il codice Python completo per calculator.py.\n"
+            "Non usare blocchi Markdown, delimitatori ``` o spiegazioni.\n"
+            "Non modificare i file."
         )
+        if not result.review.approved:
+            print("Proposta non approvata: il file non viene aggiornato.")
+            print(result.review.feedback)
+            return
+
+        # Verifica la sintassi senza eseguire il codice.
+        ast.parse(result.proposal)
+
+        target = Path(__file__).resolve().parents[2] / "workspace" / "calculator.py"
+        target.write_text(result.proposal + "\n", encoding="utf-8")
+
+        print(f"Proposta salvata in: {target}")
 
         print("Proposta:")
         print(result.proposal)
